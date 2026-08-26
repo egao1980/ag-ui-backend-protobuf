@@ -1,14 +1,19 @@
 # ag-ui-backend-protobuf
 
-protobuf transport backend for ag-ui-protocol.
+AG-UI transport B: protobuf payloads on SSE (`data:`).
 
-Part of [cl-stack](https://github.com/egao1980/cl-stack) agent-wire ([brief](https://github.com/egao1980/cl-stack/blob/main/docs/capabilities/agent-wire.md)).
+Wave-1: `:format :protobuf` is **JSON UTF-8 octets** in SSE `data:` — the official
+AG-UI `Event` proto is not compiled into cl-protobufs yet. Same events as
+`ag-ui-backend-sse`; different container. Full binary (non-SSE) is a non-goal.
 
 ```lisp
 (asdf:load-system "ag-ui-backend-protobuf")
+(ag-ui-protocol:serve-ag-ui
+ (ag-ui-backend-protobuf:make-protobuf-ag-ui-backend)
+ :path "/")
 ```
 
-CI: canned [`cl-repository`](https://github.com/egao1980/cl-repository) (`test-system.yml` / `setup-client` + `ci`). Deps from `ghcr.io/egao1980/cl-systems`.
+Tracks [cl-stack#187](https://github.com/egao1980/cl-stack/issues/187).
 
 ## License
 

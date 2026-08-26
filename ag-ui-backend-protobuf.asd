@@ -1,6 +1,6 @@
 (defsystem "ag-ui-backend-protobuf"
-  :version "0.1.0"
-  :description "protobuf transport backend for ag-ui-protocol"
+  :version "0.2.0"
+  :description "protobuf-in-SSE backend for ag-ui-protocol"
   :author "egao1980"
   :license "MIT"
   :depends-on ("ag-ui-protocol" "protobuf-protocol" "sse-protocol")
