@@ -3,7 +3,9 @@
   :description "WKT protobuf backend for ag-ui-protocol (JSON → google.protobuf.Value)"
   :author "egao1980"
   :license "MIT"
-  :depends-on ("ag-ui-protocol" "protobuf-protocol" "protobuf-backend-cl-protobufs"
+  :depends-on ((:version "ag-ui-protocol" "0.3.0")
+               (:version "protobuf-protocol" "0.2.0")
+               (:version "protobuf-backend-cl-protobufs" "0.2.0")
                "serdes-protocol")
   :serial t
   :pathname "src"
