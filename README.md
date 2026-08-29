@@ -1,10 +1,11 @@
 # ag-ui-backend-protobuf
 
-AG-UI transport B: protobuf payloads on SSE (`data:`).
+AG-UI binary transport: JSON event tables as `google.protobuf.Value` (serdes
+`:wkt`), length-prefixed under `application/vnd.ag-ui.event+proto`.
 
-Wave-1: `:format :protobuf` is **JSON UTF-8 octets** in SSE `data:` — the official
-AG-UI `Event` proto is not compiled into cl-protobufs yet. Same events as
-`ag-ui-backend-sse`; different container. Full binary (non-SSE) is a non-goal.
+This is **not** the official `Event` oneof. Unknown types survive because the
+payload is the dump table. `make-ag-ui-app` still serves SSE when `Accept` does
+not name the proto media type.
 
 ```lisp
 (asdf:load-system "ag-ui-backend-protobuf")

@@ -1,9 +1,10 @@
 (defsystem "ag-ui-backend-protobuf"
-  :version "0.2.0"
-  :description "protobuf-in-SSE backend for ag-ui-protocol"
+  :version "0.3.0"
+  :description "WKT protobuf backend for ag-ui-protocol (JSON → google.protobuf.Value)"
   :author "egao1980"
   :license "MIT"
-  :depends-on ("ag-ui-protocol" "protobuf-protocol" "sse-protocol")
+  :depends-on ("ag-ui-protocol" "protobuf-protocol" "protobuf-backend-cl-protobufs"
+               "serdes-protocol")
   :serial t
   :pathname "src"
   :components ((:file "package")
