@@ -1,9 +1,10 @@
 (defsystem "ag-ui-backend-protobuf"
-  :version "0.3.0"
-  :description "WKT protobuf backend for ag-ui-protocol (JSON → google.protobuf.Value)"
+  :version "0.4.0"
+  :description "WKT + official Event oneof protobuf backend for ag-ui-protocol"
   :author "egao1980"
   :license "MIT"
-  :depends-on ((:version "ag-ui-protocol" "0.3.0")
+  :depends-on ((:version "ag-ui-protocol" "0.4.0")
+               "ag-ui-protocol/proto"
                (:version "protobuf-protocol" "0.2.0")
                (:version "protobuf-backend-cl-protobufs" "0.2.0")
                "serdes-protocol")
