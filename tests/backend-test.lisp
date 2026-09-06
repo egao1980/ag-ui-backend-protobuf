@@ -28,11 +28,35 @@
                   :thread-id "t" :run-id "r"
                   :messages (list (ag-ui-protocol:make-ag-ui-message
                                    :role "user" :content "pb"))))))
-         (res (funcall app (list :request-method :post
-                                 :path-info "/"
-                                 :headers headers
-                                 :raw-body body)))
+         (res (ag-ui-protocol:invoke-ag-ui-app
+               app (list :request-method :post
+                         :path-info "/"
+                         :headers headers
+                         :raw-body body)))
          (events (ag-ui-protocol:decode-ag-ui-framed (first (third res)))))
     (ok (= 200 (first res)))
     (ok (search "vnd.ag-ui.event+proto" (getf (second res) :content-type)))
     (ok (equal "pb" (ag-ui-protocol:text-message-delta (third events))))))
+
+(deftest protobuf-app-oneof-roundtrip
+  (let* ((backend (ag-ui-backend-protobuf:make-protobuf-ag-ui-backend
+                   :agent (ag-ui-protocol:make-ag-ui-agent)))
+         (app (ag-ui-protocol:serve-ag-ui backend :path "/"))
+         (headers (let ((h (make-hash-table :test 'equal)))
+                    (setf (gethash "accept" h) "application/vnd.ag-ui.event+oneof")
+                    h))
+         (body (ag-ui-protocol:encode-json
+                (ag-ui-protocol:encode-run-agent-input
+                 (ag-ui-protocol:make-run-agent-input
+                  :thread-id "t" :run-id "r"
+                  :messages (list (ag-ui-protocol:make-ag-ui-message
+                                   :role "user" :content "oo"))))))
+         (res (ag-ui-protocol:invoke-ag-ui-app
+               app (list :request-method :post
+                         :path-info "/"
+                         :headers headers
+                         :raw-body body)))
+         (events (ag-ui-protocol:decode-ag-ui-framed-oneof (first (third res)))))
+    (ok (= 200 (first res)))
+    (ok (search "vnd.ag-ui.event+oneof" (getf (second res) :content-type)))
+    (ok (equal "oo" (ag-ui-protocol:text-message-delta (third events))))))

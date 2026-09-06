@@ -1,11 +1,19 @@
 # ag-ui-backend-protobuf
 
-AG-UI binary transport: JSON event tables as `google.protobuf.Value` (serdes
-`:wkt`), length-prefixed under `application/vnd.ag-ui.event+proto`.
+AG-UI binary transport. Loading this system registers both codecs; `make-ag-ui-app`
+negotiates them honestly:
 
-This is **not** the official `Event` oneof. Unknown types survive because the
-payload is the dump table. `make-ag-ui-app` still serves SSE when `Accept` does
-not name the proto media type.
+| Accept | Codec |
+|--------|--------|
+| `application/vnd.ag-ui.event+proto` | JSON dump → `google.protobuf.Value` (WKT) |
+| `application/vnd.ag-ui.event+oneof` | official `@ag-ui/proto` Event oneof |
+| otherwise | SSE JSON |
+
+WKT keeps the existing media type. Official oneof uses a distinct type because
+the spec's `+proto` name already meant WKT here — do not silently replace it.
+
+HTTP binary is a Clack response function that writes length-prefixed octet
+frames (not a princ'd body list).
 
 ```lisp
 (asdf:load-system "ag-ui-backend-protobuf")

@@ -1,9 +1,9 @@
 (in-package #:ag-ui-backend-protobuf)
 
-;;; Binary AG-UI: JSON dump → google.protobuf.Value (serdes :wkt),
-;;; length-prefixed under application/vnd.ag-ui.event+proto.
-;;; Accept negotiation lives on make-ag-ui-app — this backend just loads the
-;;; WKT codec and claims http-binary.
+;;; Binary AG-UI. Loading this system registers:
+;;;   WKT  — application/vnd.ag-ui.event+proto  (JSON dump → google.protobuf.Value)
+;;;   oneof — application/vnd.ag-ui.event+oneof (official @ag-ui/proto Event)
+;;; Accept negotiation lives on make-ag-ui-app. Do not swap WKT onto +proto.
 
 (defclass protobuf-ag-ui-backend (ag-ui-protocol:ag-ui-backend)
   ((agent :initarg :agent :accessor backend-agent :initform nil)
